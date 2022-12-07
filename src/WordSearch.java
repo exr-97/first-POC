@@ -11,7 +11,7 @@ public class WordSearch {
         wordsearch.filePath(filepath);
     }
 
-    /*hgfjhgshkjhdkjhcdhckjhdkjdhjdh
+    /*
     Assigning the file path to File and checking file is Present in the system or not
     */
     public void filePath(String filepath) throws Exception {
