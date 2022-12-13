@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.StringTokenizer;
+import java.sql.SQLException;
 
 /**
  * Creating a class for Spawn thread
@@ -35,7 +36,7 @@ public class PerformWordSearchOperation extends Thread {
             }
             fileContent = fileContent.replaceAll("[^a-zA-Z0-9@-]", " ");
             tokenAndKeyWordSearch(fileContent, wordOccurrence);
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -43,18 +44,23 @@ public class PerformWordSearchOperation extends Thread {
     /*
     Reading the keyword to check in the file and Storing it in the variable keyWordToSearch
     Checking if the Keyword present in the file or not And displaying it.
+    Creating an object for WordSearchHelper and calling a method dataBaseStorage from that class.
+    Storing the results in DataBase.
      */
 
-    public void tokenAndKeyWordSearch(String fileContent, int wordOccurrence) {
+    public void tokenAndKeyWordSearch(String fileContent, int wordOccurrence) throws SQLException {
         StringTokenizer fileContentTokenizer = new StringTokenizer(fileContent);
         while (fileContentTokenizer.hasMoreTokens()) {
             if (keyWordToSearch.equalsIgnoreCase(fileContentTokenizer.nextToken())) {
                 wordOccurrence++;
             }
         }
+        WordSearchHelper dataBaseHelper = new WordSearchHelper();
         if (wordOccurrence > 0) {
+            dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, "Success", wordOccurrence, "");
             System.out.println("The Searched Word found and it is repeated " + wordOccurrence + " times in the file");
         } else {
+            dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, "Error", wordOccurrence, "Word Not Found");
             System.out.println("The Searched Word Not found");
         }
     }
