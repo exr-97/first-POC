@@ -34,7 +34,7 @@ public class PerformWordSearchOperation extends Thread {
                 System.out.println("File is Empty");
                 return;
             }
-            fileContent = fileContent.replaceAll("[^a-zA-Z0-9@-]", " ");
+            fileContent = fileContent.replace("[^a-zA-Z0-9@-]", " ");
             tokenAndKeyWordSearch(fileContent, wordOccurrence);
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);

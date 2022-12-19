@@ -24,8 +24,7 @@ class WordSearchHelper {
         LocalDateTime now = LocalDateTime.now();
         String presentDateAndTime = dateTimeFormat.format(now);
         try {
-            WordSearchHelper database = new WordSearchHelper();
-            connectionToDataBase = database.connectionToDatabase();
+            connectionToDataBase = connectionToDatabase();
             statementQueries = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
@@ -57,15 +56,14 @@ class WordSearchHelper {
             Objects.requireNonNull(connectionToDataBase).close();
         }
     }
+
     private Connection connectionToDatabase() throws SQLException {
-        Connection connectionToDatabase=null;
-        try{
+        Connection connectionToDatabase = null;
+        try {
             Class.forName(this.driverClass);
             connectionToDatabase = DriverManager.getConnection(this.sqlUrl, this.userName, this.dbPassword);
-            return connectionToDatabase;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-
         }
         return connectionToDatabase;
     }
