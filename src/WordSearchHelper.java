@@ -24,14 +24,15 @@ class WordSearchHelper {
         LocalDateTime now = LocalDateTime.now();
         String presentDateAndTime = dateTimeFormat.format(now);
         try {
-            connectionToDataBase = DriverManager.getConnection(this.sqlUrl, this.userName, this.dbPassword);
+            WordSearchHelper database = new WordSearchHelper();
+            connectionToDataBase = database.connectionToDatabase();
             statementQueries = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
             if (tables.next()) {
                 statementQueries.execute("INSERT INTO audit VALUES ('" + filePath + "','" + wordSearched + "','" + presentDateAndTime + "','" + theResult + "'," + wordCount + ",'" + errorMessage + "')");
             } else {
-                this.processTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
+                processTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,19 +46,28 @@ class WordSearchHelper {
     Creating a new table and Storing the data in DataBase.
      */
     private void processTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
-        Connection connectionToDataBase = null;
+        Connection connectionToDataBase = connectionToDatabase();
         try {
-            Class.forName(this.driverClass);
-            connectionToDataBase = DriverManager.getConnection(this.sqlUrl, this.userName, this.dbPassword);
             Statement st = connectionToDataBase.createStatement();
             st.execute(this.creatTable);
             st.execute("INSERT INTO audit VALUES ('" + filePath + "','" + wordSearched + "','" + presentDateAndTime + "','" + theResult + "'," + wordCount + ",'" + errorMessage + "')");
-
         } catch (Exception e) {
             System.out.println(e);
-            throw new RuntimeException(e);
         } finally {
             Objects.requireNonNull(connectionToDataBase).close();
         }
     }
+    private Connection connectionToDatabase() throws SQLException {
+        Connection connectionToDatabase=null;
+        try{
+            Class.forName(this.driverClass);
+            connectionToDatabase = DriverManager.getConnection(this.sqlUrl, this.userName, this.dbPassword);
+            return connectionToDatabase;
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return connectionToDatabase;
+    }
 }
+
