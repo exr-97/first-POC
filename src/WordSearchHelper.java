@@ -30,8 +30,7 @@ class WordSearchHelper {
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.Audit, null);
             if (tables.next()) {
-                String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})",   "'"+ filePath +"'" , "'"+ wordSearched +"'","'"+presentDateAndTime+"'","'"+theResult+"'", "'"+wordCount+"'" , "'"+errorMessage +"'");
-                //System.out.println(query);
+                String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
                 statementQueries.execute(query);
 
             } else {
@@ -53,8 +52,8 @@ class WordSearchHelper {
         try {
             Statement st = connectionToDataBase.createStatement();
             st.execute(this.createTable);
-            String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})","'"+ filePath +"'" , "'"+ wordSearched +"'","'"+presentDateAndTime+"'","'"+theResult+"'", "'"+wordCount+"'" , "'"+errorMessage +"'");
-            st.execute(query);
+            String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
+            System.out.println(query);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
