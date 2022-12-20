@@ -8,6 +8,6 @@ public class Constants {
     public static final String regixPattern = "[^a-zA-Z0-9@-]";
     public static final String singleSpace = " ";
     public static final String Audit = "audit";
-    public static final String txt = ".txt";
-    public static final String json = ".json";
+    public static final String txtExtension = ".txt";
+    public static final String jsonExtension = ".json";
 }

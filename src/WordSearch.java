@@ -25,10 +25,10 @@ public class WordSearch {
     Storing the results in DataBase.
      */
     public static void fileExtensionCheck(String filePath, String keyWordToSearch) throws SQLException {
-        if (filePath.endsWith(Constants.txt) || filePath.endsWith(Constants.json)) {
+        if (filePath.endsWith(Constants.txtExtension) || filePath.endsWith(Constants.jsonExtension)) {
             processFile(filePath, keyWordToSearch);
         } else {
-            System.out.println("The given File is not in '" + Constants.txt + "' or '" + Constants.json + "' format");
+            System.out.println("The given File is not in '" + Constants.txtExtension + "' or '" + Constants.jsonExtension + "' format");
             try {
                 WordSearchHelper dataBaseHelper = new WordSearchHelper();
                 dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.resultError, Constants.initialWordCount, Constants.fileExtensionErrorMessage);
