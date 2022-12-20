@@ -15,7 +15,7 @@ class WordSearchHelper {
     String userName = "root";
     String dbPassword = "Armyairforce@1";
     String dateAndTimeFormat = "dd/MM/yyyy HH:mm:ss";
-    String creatTable = "create table audit(PathToTheFile varchar(100), SearchedWord varchar(45), DateAndTimeOfSearch varchar(45), Result varchar(45), WordCount int, ErrorMessage varchar(100))";
+    String creatTable = "create table audit (PathToTheFile varchar(100), SearchedWord varchar(45), DateAndTimeOfSearch varchar(45), Result varchar(45), WordCount int, ErrorMessage varchar(100))";
 
     public void dataBaseStorage(String filePath, String wordSearched, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
@@ -27,7 +27,7 @@ class WordSearchHelper {
             connectionToDataBase = connectionToDatabase();
             statementQueries = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
-            ResultSet tables = checkIfTableIsThere.getTables(null, null, "audit", null);
+            ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.Audit, null);
             if (tables.next()) {
                 statementQueries.execute("INSERT INTO audit VALUES ('" + filePath + "','" + wordSearched + "','" + presentDateAndTime + "','" + theResult + "'," + wordCount + ",'" + errorMessage + "')");
             } else {
@@ -68,4 +68,3 @@ class WordSearchHelper {
         return connectionToDatabase;
     }
 }
-

@@ -8,15 +8,11 @@ import java.sql.SQLException;
 public class WordSearch {
     public static final int userArgumentNumber = 2;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (args.length == userArgumentNumber) {
             String filePath = args[0];
             String keyWordToSearch = args[1];
-            try {
-                fileExtensionCheck(filePath, keyWordToSearch);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            fileExtensionCheck(filePath, keyWordToSearch);
         } else {
             System.out.println("Please pass the Arguments");
         }
@@ -29,12 +25,18 @@ public class WordSearch {
     Storing the results in DataBase.
      */
     public static void fileExtensionCheck(String filePath, String keyWordToSearch) throws SQLException {
-        if (filePath.endsWith(".txt") || filePath.endsWith(".json")) {
+        String txt = ".txt";
+        String json = ".json";
+        if (filePath.endsWith(txt) || filePath.endsWith(json)) {
             processFile(filePath, keyWordToSearch);
         } else {
-            WordSearchHelper dataBaseHelper = new WordSearchHelper();
-            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, "Error", 0, "Format of the File is not Supported");
-            System.out.println("The given File is not in '.txt' or '.json' format");
+            System.out.println("The given File is not in '" + txt + "' or '" + json + "' format");
+            try {
+                WordSearchHelper dataBaseHelper = new WordSearchHelper();
+                dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.resultError, Constants.initialWordCount, Constants.fileExtensionErrorMessage);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -52,7 +54,7 @@ public class WordSearch {
             performOperation.start();
         } else {
             WordSearchHelper dataBaseHelper = new WordSearchHelper();
-            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, "Error", 0, "File Dose not Exists in the System");
+            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.resultError, Constants.initialWordCount, Constants.filePathErrorMessage);
             System.out.println("File Does Not Exists In the System");
         }
     }

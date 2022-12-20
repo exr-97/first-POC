@@ -34,7 +34,7 @@ public class PerformWordSearchOperation extends Thread {
                 System.out.println("File is Empty");
                 return;
             }
-            fileContent = fileContent.replace("[^a-zA-Z0-9@-]", " ");
+            fileContent = fileContent.replaceAll(Constants.regixPattern, Constants.singleSpace);
             tokenAndKeyWordSearch(fileContent, wordOccurrence);
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
@@ -49,6 +49,8 @@ public class PerformWordSearchOperation extends Thread {
      */
 
     public void tokenAndKeyWordSearch(String fileContent, int wordOccurrence) throws SQLException {
+        String theResult;
+        String errorMessage;
         StringTokenizer fileContentTokenizer = new StringTokenizer(fileContent);
         while (fileContentTokenizer.hasMoreTokens()) {
             if (keyWordToSearch.equalsIgnoreCase(fileContentTokenizer.nextToken())) {
@@ -57,11 +59,14 @@ public class PerformWordSearchOperation extends Thread {
         }
         WordSearchHelper dataBaseHelper = new WordSearchHelper();
         if (wordOccurrence > 0) {
-            dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, "Success", wordOccurrence, "");
+            theResult = Constants.resultSuccess;
+            errorMessage =Constants.singleSpace;
             System.out.println("The Searched Word found and it is repeated " + wordOccurrence + " times in the file");
         } else {
-            dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, "Error", wordOccurrence, "Word Not Found");
+            theResult = Constants.resultError;
+            errorMessage = Constants.wordErrorMessage;
             System.out.println("The Searched Word Not found");
         }
+        dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
     }
 }
