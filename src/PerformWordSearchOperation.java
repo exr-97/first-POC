@@ -60,7 +60,7 @@ public class PerformWordSearchOperation extends Thread {
         WordSearchHelper dataBaseHelper = new WordSearchHelper();
         if (wordOccurrence > 0) {
             theResult = Constants.resultSuccess;
-            errorMessage =Constants.singleSpace;
+            errorMessage = Constants.singleSpace;
             System.out.println("The Searched Word found and it is repeated " + wordOccurrence + " times in the file");
         } else {
             theResult = Constants.resultError;
