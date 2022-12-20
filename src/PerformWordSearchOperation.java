@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.StringTokenizer;
@@ -36,8 +35,8 @@ public class PerformWordSearchOperation extends Thread {
             }
             fileContent = fileContent.replaceAll(Constants.regixPattern, Constants.singleSpace);
             tokenAndKeyWordSearch(fileContent, wordOccurrence);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -57,7 +56,6 @@ public class PerformWordSearchOperation extends Thread {
                 wordOccurrence++;
             }
         }
-        WordSearchHelper dataBaseHelper = new WordSearchHelper();
         if (wordOccurrence > 0) {
             theResult = Constants.resultSuccess;
             errorMessage = Constants.singleSpace;
@@ -67,6 +65,7 @@ public class PerformWordSearchOperation extends Thread {
             errorMessage = Constants.wordErrorMessage;
             System.out.println("The Searched Word Not found");
         }
+        WordSearchHelper dataBaseHelper = new WordSearchHelper();
         dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
     }
 }
