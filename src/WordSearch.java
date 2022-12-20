@@ -6,10 +6,10 @@ import java.sql.SQLException;
  * Calling fileExtensionCheck method for checking the file path extension.
  */
 public class WordSearch {
-    public static final int userArgumentNumber = 2;
+
 
     public static void main(String[] args) throws Exception {
-        if (args.length == userArgumentNumber) {
+        if (args.length == Constants.UserArgumentNumber) {
             String filePath = args[0];
             String keyWordToSearch = args[1];
             fileExtensionCheck(filePath, keyWordToSearch);
@@ -25,13 +25,13 @@ public class WordSearch {
     Storing the results in DataBase.
      */
     public static void fileExtensionCheck(String filePath, String keyWordToSearch) throws SQLException {
-        if (filePath.endsWith(Constants.txtExtension) || filePath.endsWith(Constants.jsonExtension)) {
+        if (filePath.endsWith(Constants.TxtExtension) || filePath.endsWith(Constants.JsonExtension)) {
             processFile(filePath, keyWordToSearch);
         } else {
-            System.out.println("The given File is not in '" + Constants.txtExtension + "' or '" + Constants.jsonExtension + "' format");
+            System.out.println("The given File is not in '" + Constants.TxtExtension + "' or '" + Constants.JsonExtension + "' format");
             try {
                 WordSearchHelper dataBaseHelper = new WordSearchHelper();
-                dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.resultError, Constants.initialWordCount, Constants.fileExtensionErrorMessage);
+                dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FileExtensionErrorMessage);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -52,7 +52,7 @@ public class WordSearch {
             performOperation.start();
         } else {
             WordSearchHelper dataBaseHelper = new WordSearchHelper();
-            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.resultError, Constants.initialWordCount, Constants.filePathErrorMessage);
+            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FilePathErrorMessage);
             System.out.println("File Does Not Exists In the System");
         }
     }

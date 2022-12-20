@@ -33,7 +33,7 @@ public class PerformWordSearchOperation extends Thread {
                 System.out.println("File is Empty");
                 return;
             }
-            fileContent = fileContent.replaceAll(Constants.regixPattern, Constants.singleSpace);
+            fileContent = fileContent.replaceAll(Constants.RegixPattern, Constants.SingleSpace);
             tokenAndKeyWordSearch(fileContent, wordOccurrence);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,12 +57,12 @@ public class PerformWordSearchOperation extends Thread {
             }
         }
         if (wordOccurrence > 0) {
-            theResult = Constants.resultSuccess;
-            errorMessage = Constants.singleSpace;
+            theResult = Constants.ResultSuccess;
+            errorMessage = Constants.SingleSpace;
             System.out.println("The Searched Word found and it is repeated " + wordOccurrence + " times in the file");
         } else {
-            theResult = Constants.resultError;
-            errorMessage = Constants.wordErrorMessage;
+            theResult = Constants.ResultError;
+            errorMessage = Constants.WordErrorMessage;
             System.out.println("The Searched Word Not found");
         }
         WordSearchHelper dataBaseHelper = new WordSearchHelper();
