@@ -5,9 +5,7 @@ import java.sql.SQLException;
  * Getting the file path from the command prompt.
  * Calling fileExtensionCheck method for checking the file path extension.
  */
-public class WordSearch {
-
-
+public class FileSearch {
     public static void main(String[] args) throws Exception {
         if (args.length == Constants.UserArgumentNumber) {
             String filePath = args[0];
@@ -30,8 +28,8 @@ public class WordSearch {
         } else {
             System.out.println("The given File is not in '" + Constants.TxtExtension + "' or '" + Constants.JsonExtension + "' format");
             try {
-                WordSearchHelper dataBaseHelper = new WordSearchHelper();
-                dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FileExtensionErrorMessage);
+                WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
+                wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FileExtensionErrorMessage);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -48,11 +46,11 @@ public class WordSearch {
         File file = new File(filePath);
         if (file.exists()) {
             System.out.println("The File exists");
-            PerformWordSearchOperation performOperation = new PerformWordSearchOperation(filePath, keyWordToSearch);
+            WordSearchOperation performOperation = new WordSearchOperation(filePath, keyWordToSearch);
             performOperation.start();
         } else {
-            WordSearchHelper dataBaseHelper = new WordSearchHelper();
-            dataBaseHelper.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FilePathErrorMessage);
+            WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
+            wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.ResultError, Constants.InitialWordCount, Constants.FilePathErrorMessage);
             System.out.println("File Does Not Exists In the System");
         }
     }

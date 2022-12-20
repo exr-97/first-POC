@@ -5,12 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
- * Class created with the help MySQL
  * Creating the connection by using jdbc.
  * Creating a table with some columns which is the data.
  * Calling method processTable if table is not present in the Database.
  */
-class WordSearchHelper {
+class WordSearchToDataBase {
     String driverClass = "com.mysql.cj.jdbc.Driver";
     String sqlUrl = "jdbc:mysql://localhost:3306/WordSearchPoc1";
     String userName = "root";
@@ -32,7 +31,6 @@ class WordSearchHelper {
             if (tables.next()) {
                 String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
                 statementQueries.execute(query);
-
             } else {
                 processCreateTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
             }
@@ -50,10 +48,10 @@ class WordSearchHelper {
     private void processCreateTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = connectionToDatabase();
         try {
-            Statement st = connectionToDataBase.createStatement();
-            st.execute(this.createTable);
+            Statement statementQueries = connectionToDataBase.createStatement();
+            statementQueries.execute(this.createTable);
             String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
-            System.out.println(query);
+            statementQueries.execute(query);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

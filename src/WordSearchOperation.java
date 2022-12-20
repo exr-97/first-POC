@@ -8,11 +8,11 @@ import java.sql.SQLException;
  * Declaring the filepath variable with private access modifier
  * And creating a constructor for the filepath to access it from the other class
  */
-public class PerformWordSearchOperation extends Thread {
+public class WordSearchOperation extends Thread {
     private final String filepath;
     private final String keyWordToSearch;
 
-    public PerformWordSearchOperation(String filepath, String keyWordToSearch) {
+    public WordSearchOperation(String filepath, String keyWordToSearch) {
         this.filepath = filepath;
         this.keyWordToSearch = keyWordToSearch;
     }
@@ -65,7 +65,7 @@ public class PerformWordSearchOperation extends Thread {
             errorMessage = Constants.WordErrorMessage;
             System.out.println("The Searched Word Not found");
         }
-        WordSearchHelper dataBaseHelper = new WordSearchHelper();
-        dataBaseHelper.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
+        WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
+        wordSearchDataBase.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
     }
 }
