@@ -31,7 +31,7 @@ class WordSearchHelper {
             if (tables.next()) {
                 statementQueries.execute("INSERT INTO audit VALUES ('" + filePath + "','" + wordSearched + "','" + presentDateAndTime + "','" + theResult + "'," + wordCount + ",'" + errorMessage + "')");
             } else {
-                processTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
+                processCreatTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ class WordSearchHelper {
     Creating the connection by using jdbc.
     Creating a new table and Storing the data in DataBase.
      */
-    private void processTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
+    private void processCreatTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = connectionToDatabase();
         try {
             Statement st = connectionToDataBase.createStatement();
