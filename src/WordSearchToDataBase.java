@@ -27,7 +27,7 @@ class WordSearchToDataBase {
             connectionToDataBase = connectionToDatabase();
             statementQueries = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
-            ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.Audit, null);
+            ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.AUDIT, null);
             if (tables.next()) {
                 String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
                 statementQueries.execute(query);
@@ -58,7 +58,9 @@ class WordSearchToDataBase {
             Objects.requireNonNull(connectionToDataBase).close();
         }
     }
-
+/*
+Loading the Driver for MySQL and Establishing the connection.
+ */
     private Connection connectionToDatabase() throws SQLException {
         Connection connectionToDatabase = null;
         try {

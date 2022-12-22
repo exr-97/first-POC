@@ -1,16 +1,17 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.StringTokenizer;
-import java.sql.SQLException;
+import java.util.concurrent.Callable;
 
 /**
  * Creating a class for Spawn thread
  * Declaring the filepath variable with private access modifier
  * And creating a constructor for the filepath to access it from the other class
  */
-public class WordSearchOperation extends Thread {
+public class WordSearchOperation implements Callable<Integer> {
     private final String filepath;
     private final String keyWordToSearch;
+    private int wordOccurrence = 0;
 
     public WordSearchOperation(String filepath, String keyWordToSearch) {
         this.filepath = filepath;
@@ -18,14 +19,22 @@ public class WordSearchOperation extends Thread {
     }
 
     /*
+    Used a callable interface to return the child thread values to main thread.
+    In call method calling the child thread.
+     */
+    @Override
+    public Integer call() {
+        run();
+        return wordOccurrence;
+    }
+
+    /*
     Accessing the contents present in the file and storing it in the variable fileContent and
     Check is If file is Empty or Not
     Replacing the Special characters with the space
     Calling a method tokenAndKeyWordSearch.
-     */
-
+    */
     public void run() {
-        int wordOccurrence = 0;
         String fileContent;
         try {
             fileContent = Files.readString(Path.of(filepath));
@@ -33,8 +42,7 @@ public class WordSearchOperation extends Thread {
                 System.out.println("File is Empty");
                 return;
             }
-            fileContent = fileContent.replaceAll(Constants.RegixPattern, Constants.SingleSpace);
-            tokenAndKeyWordSearch(fileContent, wordOccurrence);
+            tokenAndKeyWordSearch(fileContent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,25 +55,30 @@ public class WordSearchOperation extends Thread {
     Storing the results in DataBase.
      */
 
-    public void tokenAndKeyWordSearch(String fileContent, int wordOccurrence) throws SQLException {
-        String theResult;
-        String errorMessage;
+    public void tokenAndKeyWordSearch(String fileContent) {
+        fileContent = fileContent.replaceAll(Constants.REGIX_PATTERN, Constants.SINGLE_SPACE);
         StringTokenizer fileContentTokenizer = new StringTokenizer(fileContent);
         while (fileContentTokenizer.hasMoreTokens()) {
             if (keyWordToSearch.equalsIgnoreCase(fileContentTokenizer.nextToken())) {
                 wordOccurrence++;
             }
         }
+    }
+
+    public void displayResults(int wordOccurrence) throws Exception {
+        String theResult;
+        String errorMessage;
         if (wordOccurrence > 0) {
-            theResult = Constants.ResultSuccess;
-            errorMessage = Constants.SingleSpace;
-            System.out.println("The Searched Word found and it is repeated " + wordOccurrence + " times in the file");
+            theResult = Constants.RESULT_SUCCESS;
+            errorMessage = Constants.SINGLE_SPACE;
+            System.out.println("The Searched Word found and it is present " + wordOccurrence + " times in the file");
         } else {
-            theResult = Constants.ResultError;
-            errorMessage = Constants.WordErrorMessage;
+            theResult = Constants.RESULT_ERROR;
+            errorMessage = Constants.WORD_ERROR_MESSAGE;
             System.out.println("The Searched Word Not found");
         }
         WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
         wordSearchDataBase.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
+
     }
 }

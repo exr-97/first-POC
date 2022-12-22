@@ -1,14 +1,14 @@
 public class Constants {
-    public static final int UserArgumentNumber = 2;
-    public static final int InitialWordCount = 0;
-    public static final String ResultError = "Error";
-    public static final String ResultSuccess = "Success";
-    public static final String FilePathErrorMessage = "File Does Not Exists In the System";
-    public static final String FileExtensionErrorMessage = "The given File is not in .txt or .json format";
-    public static final String WordErrorMessage = "Word Not Found";
-    public static final String RegixPattern = "[^a-zA-Z0-9@.-]";
-    public static final String SingleSpace = " ";
-    public static final String Audit = "audit";
-    public static final String TxtExtension = ".txt";
-    public static final String JsonExtension = ".json";
+    public static final int USER_ARGUMENT_NUMBER = 2;
+    public static final int INITIAL_WORD_COUNT = 0;
+    public static final String RESULT_ERROR = "Error";
+    public static final String RESULT_SUCCESS = "Success";
+    public static final String FILE_PATH_ERROR_MESSAGE = "File Does Not Exists In the System";
+    public static final String FILE_EXTENSION_ERROR_MESSAGE = "The given File is not in .txt or .json format";
+    public static final String WORD_ERROR_MESSAGE = "Word Not Found";
+    public static final String REGIX_PATTERN = "[^a-zA-Z0-9@.-]";
+    public static final String SINGLE_SPACE = " ";
+    public static final String AUDIT = "audit";
+    public static final String TXT_EXTENSION = ".txt";
+    public static final String JSON_EXTENSION = ".json";
 }
