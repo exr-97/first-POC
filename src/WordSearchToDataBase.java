@@ -6,8 +6,9 @@ import java.util.Objects;
 
 /**
  * Creating the connection by using jdbc.
- * Creating a table with some columns which is the data.
- * Calling method processTable if table is not present in the Database.
+ * Checking if table ia already present or not, if present we are inserting the values.
+ * If table not present Creating a table with some columns which is the data.
+ * Calling method createNewTableAndInsertValues to create a new table and insert the values in it.
  */
 class WordSearchToDataBase {
     String driverClass = "com.mysql.cj.jdbc.Driver";
@@ -17,6 +18,12 @@ class WordSearchToDataBase {
     String dateAndTimeFormat = "dd/MM/yyyy HH:mm:ss";
     String createTable = "create table audit (PathToTheFile varchar(100), SearchedWord varchar(45), DateAndTimeOfSearch varchar(45), Result varchar(45), WordCount int, ErrorMessage varchar(100))";
 
+    /*
+    Calling connectionToDatabase method to load the driver and establish the connection.
+    Checking if the Table audit is already exists, if exists we are inserting the values into the table.
+    And closing the connection.
+    If table is not present then calling createNewTableAndInsertValues method so to creat a new table and insert the values.
+     */
     public void dataBaseStorage(String filePath, String wordSearched, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement statementQueries;
@@ -29,10 +36,9 @@ class WordSearchToDataBase {
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.AUDIT, null);
             if (tables.next()) {
-                String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
-                statementQueries.execute(query);
+                statementQueries.execute(insertValuesToTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage));
             } else {
-                processCreateTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
+                createNewTableAndInsertValues(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,25 +48,25 @@ class WordSearchToDataBase {
     }
 
     /*
-    Creating the connection by using jdbc.
-    Creating a new table and Storing the data in DataBase.
+    Calling connectionToDatabase method to load the driver and establish the connection.
+    Creating a new table and insert the values into new table.
      */
-    private void processCreateTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
+    private void createNewTableAndInsertValues(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = connectionToDatabase();
         try {
             Statement statementQueries = connectionToDataBase.createStatement();
             statementQueries.execute(this.createTable);
-            String query = MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
-            statementQueries.execute(query);
+            statementQueries.execute(insertValuesToTable(filePath, wordSearched, presentDateAndTime, theResult, wordCount, errorMessage));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             Objects.requireNonNull(connectionToDataBase).close();
         }
     }
-/*
-Loading the Driver for MySQL and Establishing the connection.
- */
+
+    /*
+    Loading the Driver for MySQL and Establishing the connection.
+     */
     private Connection connectionToDatabase() throws SQLException {
         Connection connectionToDatabase = null;
         try {
@@ -70,5 +76,12 @@ Loading the Driver for MySQL and Establishing the connection.
             e.printStackTrace();
         }
         return connectionToDatabase;
+    }
+
+    /*
+    Inserting the values into the table.
+     */
+    private String insertValuesToTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) {
+        return MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
     }
 }

@@ -5,7 +5,7 @@ public class Constants {
     public static final String RESULT_SUCCESS = "Success";
     public static final String FILE_PATH_ERROR_MESSAGE = "File Does Not Exists In the System";
     public static final String FILE_EXTENSION_ERROR_MESSAGE = "The given File is not in .txt or .json format";
-    public static final String WORD_ERROR_MESSAGE = "Word Not Found";
+    public static final String WORD_ERROR_MESSAGE = "The Searched Word Not found";
     public static final String REGIX_PATTERN = "[^a-zA-Z0-9@.-]";
     public static final String SINGLE_SPACE = " ";
     public static final String AUDIT = "audit";

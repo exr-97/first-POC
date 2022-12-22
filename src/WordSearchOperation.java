@@ -50,11 +50,8 @@ public class WordSearchOperation implements Callable<Integer> {
 
     /*
     Reading the keyword to check in the file and Storing it in the variable keyWordToSearch
-    Checking if the Keyword present in the file or not And displaying it.
-    Creating an object for WordSearchHelper and calling a method dataBaseStorage from that class.
-    Storing the results in DataBase.
+    Checking if the Keyword present in the file or not.
      */
-
     public void tokenAndKeyWordSearch(String fileContent) {
         fileContent = fileContent.replaceAll(Constants.REGIX_PATTERN, Constants.SINGLE_SPACE);
         StringTokenizer fileContentTokenizer = new StringTokenizer(fileContent);
@@ -65,6 +62,9 @@ public class WordSearchOperation implements Callable<Integer> {
         }
     }
 
+    /*
+    Displaying the Final Results and Storing the results in DataBase.
+     */
     public void displayResults(int wordOccurrence) throws Exception {
         String theResult;
         String errorMessage;
@@ -75,10 +75,9 @@ public class WordSearchOperation implements Callable<Integer> {
         } else {
             theResult = Constants.RESULT_ERROR;
             errorMessage = Constants.WORD_ERROR_MESSAGE;
-            System.out.println("The Searched Word Not found");
+            System.out.println(Constants.WORD_ERROR_MESSAGE);
         }
         WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
         wordSearchDataBase.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
-
     }
 }

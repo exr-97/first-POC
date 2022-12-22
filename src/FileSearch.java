@@ -31,7 +31,7 @@ public class FileSearch {
         if (filePath.endsWith(Constants.TXT_EXTENSION) || filePath.endsWith(Constants.JSON_EXTENSION)) {
             processFile(filePath, keyWordToSearch);
         } else {
-            System.out.println("The given File is not in '" + Constants.TXT_EXTENSION + "' or '" + Constants.JSON_EXTENSION + "' format");
+            System.out.println(Constants.FILE_EXTENSION_ERROR_MESSAGE);
             try {
                 WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
                 wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_EXTENSION_ERROR_MESSAGE);
@@ -61,7 +61,7 @@ public class FileSearch {
         } else {
             WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
             wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_PATH_ERROR_MESSAGE);
-            System.out.println("File Does Not Exists In the System");
+            System.out.println(Constants.FILE_PATH_ERROR_MESSAGE);
         }
     }
 }
