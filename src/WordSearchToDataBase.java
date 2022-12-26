@@ -82,6 +82,6 @@ class WordSearchToDataBase {
     Inserting the values into the table.
      */
     private String insertValuesToTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) {
-        return MessageFormat.format("INSERT INTO AUDIT VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
+        return MessageFormat.format("INSERT INTO "+Constants.AUDIT+" VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
     }
 }
