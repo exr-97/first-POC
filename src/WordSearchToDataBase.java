@@ -24,14 +24,14 @@ class WordSearchToDataBase {
     And closing the connection.
     If table is not present then calling createNewTableAndInsertValues method so to creat a new table and insert the values.
      */
-    public void dataBaseStorage(String filePath, String wordSearched, String theResult, int wordCount, String errorMessage) throws SQLException {
+    public void insertDataToDatabase(String filePath, String wordSearched, String theResult, int wordCount, String errorMessage) throws SQLException {
         Connection connectionToDataBase = null;
         Statement statementQueries;
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern(this.dateAndTimeFormat);
         LocalDateTime now = LocalDateTime.now();
         String presentDateAndTime = dateTimeFormat.format(now);
         try {
-            connectionToDataBase = connectionToDatabase();
+            connectionToDataBase = connectToDataBase();
             statementQueries = connectionToDataBase.createStatement();
             DatabaseMetaData checkIfTableIsThere = connectionToDataBase.getMetaData();
             ResultSet tables = checkIfTableIsThere.getTables(null, null, Constants.AUDIT, null);
@@ -52,7 +52,7 @@ class WordSearchToDataBase {
     Creating a new table and insert the values into new table.
      */
     private void createNewTableAndInsertValues(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) throws SQLException {
-        Connection connectionToDataBase = connectionToDatabase();
+        Connection connectionToDataBase = connectToDataBase();
         try {
             Statement statementQueries = connectionToDataBase.createStatement();
             statementQueries.execute(this.createTable);
@@ -67,7 +67,7 @@ class WordSearchToDataBase {
     /*
     Loading the Driver for MySQL and Establishing the connection.
      */
-    private Connection connectionToDatabase() throws SQLException {
+    private Connection connectToDataBase() throws SQLException {
         Connection connectionToDatabase = null;
         try {
             Class.forName(this.driverClass);
@@ -82,6 +82,6 @@ class WordSearchToDataBase {
     Inserting the values into the table.
      */
     private String insertValuesToTable(String filePath, String wordSearched, String presentDateAndTime, String theResult, int wordCount, String errorMessage) {
-        return MessageFormat.format("INSERT INTO audit VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
+        return MessageFormat.format("INSERT INTO AUDIT VALUES({0},{1},{2},{3},{4},{5})", "'" + filePath + "'", "'" + wordSearched + "'", "'" + presentDateAndTime + "'", "'" + theResult + "'", "'" + wordCount + "'", "'" + errorMessage + "'");
     }
 }

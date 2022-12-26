@@ -78,6 +78,6 @@ public class WordSearchOperation implements Callable<Integer> {
             System.out.println(Constants.WORD_ERROR_MESSAGE);
         }
         WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
-        wordSearchDataBase.dataBaseStorage(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
+        wordSearchDataBase.insertDataToDatabase(filepath, keyWordToSearch, theResult, wordOccurrence, errorMessage);
     }
 }

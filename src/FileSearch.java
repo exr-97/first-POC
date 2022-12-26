@@ -34,7 +34,7 @@ public class FileSearch {
             System.out.println(Constants.FILE_EXTENSION_ERROR_MESSAGE);
             try {
                 WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
-                wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_EXTENSION_ERROR_MESSAGE);
+                wordSearchDataBase.insertDataToDatabase(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_EXTENSION_ERROR_MESSAGE);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -60,7 +60,7 @@ public class FileSearch {
             threadPool.close();
         } else {
             WordSearchToDataBase wordSearchDataBase = new WordSearchToDataBase();
-            wordSearchDataBase.dataBaseStorage(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_PATH_ERROR_MESSAGE);
+            wordSearchDataBase.insertDataToDatabase(filePath, keyWordToSearch, Constants.RESULT_ERROR, Constants.INITIAL_WORD_COUNT, Constants.FILE_PATH_ERROR_MESSAGE);
             System.out.println(Constants.FILE_PATH_ERROR_MESSAGE);
         }
     }
